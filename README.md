@@ -31,3 +31,25 @@ pip install -r requirements.txt
 ## python-telegram-bot Documentation
 
 [python-telegram-bot==13.15](https://docs.python-telegram-bot.org/en/v13.15/)
+
+## Result Database
+
+```json
+
+{
+    "user1": {
+        "like": 1,
+        "dislike": 0
+    },
+
+    "user2": {
+        "like": 0,
+        "dislike": 3
+    },
+
+    "user3": {
+        "like": 3,
+        "dislike": 5
+    },
+}
+```
