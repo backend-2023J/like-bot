@@ -6,7 +6,7 @@ from telegram.ext import (
     MessageHandler,
     Filters
     )
-
+import json
 import os
 
 TOKEN = os.environ["TOKEN"]
@@ -20,17 +20,26 @@ def echo(update:Update,context:CallbackContext):
     bot = context.bot
     text = update.message.text
     chat_id = update.message.chat.id
-    
-    like = 
-    dislike = 
+
+    with open('data.json', 'r') as f:
+        data = json.loads(f.read())
+
+    like = data['like']
+    dislike = data['dislike']
 
     if text=="👍":
         like += 1
     if text == "👎":
         dislike += 1
-        
-    msg = f"Like: {like}\nDislike: {dislike}"
+    data['like'] = like
+    data['dislike'] = dislike
 
+    json_data = json.dumps(data, indent=4)
+
+    with open('data.json', 'w') as f:
+        f.write(json_data)
+
+    msg = f"Like: {like}\nDislike: {dislike}"
     bot.sendMessage(chat_id,msg)
 
 updater = Updater(token = TOKEN)
