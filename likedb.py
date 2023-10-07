@@ -15,16 +15,21 @@ class LikeDB:
     
     def save(self, data):
         with open(self.path, 'w') as f:
-            json.dump(self.data, f, indent=4)
+            json.dump(data, f, indent=4)
     
-    def add_like(self):
-        self.data['like'] += 1
-        self.save(self.data)
+    def add_like(self, chat_id):
+        pass
         
     
-    def add_dislike(self):
-        self.data['dislike'] += 1
-        self.save(self.data)
+    def add_dislike(self, chat_id):
+        pass
+    
+    def get_likes(self, chat_id) -> int:
+        pass
+
+    def get_dislikes(self, chat_id) -> int:
+        pass
+
 
 
             
