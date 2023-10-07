@@ -7,10 +7,10 @@ from telegram.ext import (
     Filters
     )
 
-like = 0
-dislike = 0
 import os
+
 TOKEN = os.environ["TOKEN"]
+
 def start(update:Update,context:CallbackContext):
     bot = context.bot
     chat_id = update.message.chat.id
@@ -20,8 +20,9 @@ def echo(update:Update,context:CallbackContext):
     bot = context.bot
     text = update.message.text
     chat_id = update.message.chat.id
-    global like
-    global dislike
+    
+    like = 
+    dislike = 
 
     if text=="👍":
         like += 1
