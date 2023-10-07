@@ -1,4 +1,4 @@
-from telegram import Update
+from telegram import Update, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import (
     CallbackContext, 
     Updater, 
@@ -14,7 +14,13 @@ TOKEN = os.environ["TOKEN"]
 def start(update:Update,context:CallbackContext):
     bot = context.bot
     chat_id = update.message.chat.id
-    bot.sendMessage(chat_id,"Welcome to Bot!")
+    
+    like = KeyboardButton(text="👍")
+    dislike = KeyboardButton(text='👎')
+
+    keyboard = ReplyKeyboardMarkup([[like, dislike]], resize_keyboard=True)
+
+    bot.sendMessage(chat_id,"Welcome to Bot!", reply_markup=keyboard)
 
 def echo(update:Update,context:CallbackContext):
     bot = context.bot
