@@ -35,7 +35,7 @@ def echo(update:Update,context:CallbackContext):
     if text=="👍":
         db.add_like()
     if text == "👎":
-        db.add_dislike
+        db.add_dislike()
 
     like = data['like']
     dislike = data['dislike']
