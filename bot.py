@@ -8,13 +8,16 @@ from telegram.ext import (
     )
 import json
 import os
+from likedb import LikeDB
+
+db = LikeDB('data.json')
 
 TOKEN = os.environ["TOKEN"]
 
 def start(update:Update,context:CallbackContext):
     bot = context.bot
     chat_id = update.message.chat.id
-    
+
     like = KeyboardButton(text="👍")
     dislike = KeyboardButton(text='👎')
 
@@ -27,23 +30,15 @@ def echo(update:Update,context:CallbackContext):
     text = update.message.text
     chat_id = update.message.chat.id
 
-    with open('data.json', 'r') as f:
-        data = json.loads(f.read())
+    data = db.data
+
+    if text=="👍":
+        db.add_like()
+    if text == "👎":
+        db.add_dislike
 
     like = data['like']
     dislike = data['dislike']
-
-    if text=="👍":
-        like += 1
-    if text == "👎":
-        dislike += 1
-    data['like'] = like
-    data['dislike'] = dislike
-
-    json_data = json.dumps(data, indent=4)
-
-    with open('data.json', 'w') as f:
-        f.write(json_data)
 
     msg = f"Like: {like}\nDislike: {dislike}"
     bot.sendMessage(chat_id,msg)
