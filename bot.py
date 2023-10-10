@@ -44,16 +44,12 @@ def echo(update:Update,context:CallbackContext):
     text = update.message.text
     chat_id = update.message.chat.id
 
-    if text=="👍":
-        db.add_like(chat_id)
-    if text == "👎":
-        db.add_dislike(chat_id)
+    like = InlineKeyboardButton(text="👍", callback_data="like")
+    dislike = InlineKeyboardButton(text='👎', callback_data="dislike")
 
-    like = db.get_likes(chat_id)
-    dislike = db.get_dislikes(chat_id)
+    keyboard = InlineKeyboardMarkup([[like, dislike]])
 
-    msg = f"Like: {like}\nDislike: {dislike}"
-    bot.sendMessage(chat_id,msg)
+    bot.sendMessage(chat_id,text, reply_markup=keyboard)
 
 def callback(update: Update, context: CallbackContext):
     query = update.callback_query
