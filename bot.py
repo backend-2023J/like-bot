@@ -7,17 +7,17 @@ from telegram.ext import (
     Filters
     )
 import json
-import os
+
 from likedb import LikeDB
 
 db = LikeDB('data.json')
 
-TOKEN = os.environ["TOKEN"]
+TOKEN = "6388893107:AAHm55DuPheZmctXz5mX5HnSfD9zfgmpNhY"
 
 def start(update:Update,context:CallbackContext):
     bot = context.bot
     chat_id = update.message.chat.id
-
+    db.add_user(chat_id)
     like = KeyboardButton(text="👍")
     dislike = KeyboardButton(text='👎')
 
@@ -30,15 +30,13 @@ def echo(update:Update,context:CallbackContext):
     text = update.message.text
     chat_id = update.message.chat.id
 
-    data = db.data
-
     if text=="👍":
-        db.add_like()
+        db.add_like(chat_id)
     if text == "👎":
-        db.add_dislike()
+        db.add_dislike(chat_id)
 
-    like = data['like']
-    dislike = data['dislike']
+    like = db.get_likes(chat_id)
+    dislike = db.get_dislikes(chat_id)
 
     msg = f"Like: {like}\nDislike: {dislike}"
     bot.sendMessage(chat_id,msg)
