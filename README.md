@@ -37,19 +37,25 @@ pip install -r requirements.txt
 ```json
 
 {
-    "user1": {
-        "like": 1,
-        "dislike": 0
+    "message_id1": {
+        "user1": {
+            "like": 0,
+            "dislike": 0
+        },
+        "user1": {
+            "like": 1,
+            "dislike": 0
+        },
     },
-
-    "user2": {
-        "like": 0,
-        "dislike": 3
-    },
-
-    "user3": {
-        "like": 3,
-        "dislike": 5
+    "message_id2": {
+        "user1": {
+            "like": 0,
+            "dislike": 0
+        },
+        "user1": {
+            "like": 1,
+            "dislike": 0
+        },
     },
 }
 ```
