@@ -2,6 +2,5 @@ from likedb import LikeDB
 
 db = LikeDB("data.json")
 
-data = db.data
 
-print(data)
+print(db.add_like())
