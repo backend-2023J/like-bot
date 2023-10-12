@@ -25,12 +25,8 @@ def start(update:Update,context:CallbackContext):
     bot = context.bot
     chat_id = update.message.chat.id
     db.add_user(chat_id)
-    like = InlineKeyboardButton(text="👍", callback_data="like")
-    dislike = InlineKeyboardButton(text='👎', callback_data="dislike")
 
-    keyboard = InlineKeyboardMarkup([[like, dislike]])
-
-    bot.sendMessage(chat_id,"Welcome to Bot!", reply_markup=keyboard)
+    bot.sendMessage(chat_id,"Send me image")
 
 def helping(update:Update,context:CallbackContext):
     bot = context.bot
@@ -39,20 +35,25 @@ def helping(update:Update,context:CallbackContext):
     bot.sendMessage(chat_id,"help")
 
 
-def echo(update:Update,context:CallbackContext):
+def image(update:Update,context:CallbackContext):
+
+    file_id = update.message.photo[0]['file_id']
+
     bot = context.bot
     text = update.message.text
     chat_id = update.message.chat.id
 
+    print(update.message.message_id)
     like = InlineKeyboardButton(text="👍", callback_data="like")
     dislike = InlineKeyboardButton(text='👎', callback_data="dislike")
 
     keyboard = InlineKeyboardMarkup([[like, dislike]])
+    bot.sendPhoto(chat_id, photo=file_id, reply_markup=keyboard)
 
-    bot.sendMessage(chat_id,text, reply_markup=keyboard)
 
 def callback(update: Update, context: CallbackContext):
     query = update.callback_query
+    print(query.message.message_id)
     data = query.data
     chat_id = query.message.chat.id
 
@@ -66,16 +67,17 @@ def callback(update: Update, context: CallbackContext):
 
     like = InlineKeyboardButton(text=f"👍 {like}", callback_data="like")
     dislike = InlineKeyboardButton(text=f'👎 {dislike}', callback_data="dislike")
+    query.answer(text=f"{data}")
 
     keyboard = InlineKeyboardMarkup([[like, dislike]])
     query.edit_message_reply_markup(reply_markup=keyboard)
-    query.answer(text=f"{data}")
+    
 
 
 updater = Updater(token = TOKEN)
 updater.dispatcher.add_handler(CommandHandler("start",start))
 updater.dispatcher.add_handler(CommandHandler("help",helping))
-updater.dispatcher.add_handler(MessageHandler(Filters.text,echo))
+updater.dispatcher.add_handler(MessageHandler(Filters.photo,image))
 updater.dispatcher.add_handler(CallbackQueryHandler(callback))
 
 updater.start_polling()
